@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Graphics - Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Graphics";
+        var mkdocs_page_input_path = "03-graphics.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Prerequisite</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../01-introduction/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02-circlize-layout/">Circular layout</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Graphics</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#segments">Segments</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#barplots-boxplots-and-violin-plots">Barplots, boxplots and violin plots</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#circular-arrows">Circular arrows</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#raster-image">Raster image</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#work-together-with-the-base-graphic-system">Work together with the base graphic system</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04-legends/">Legends</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05-implement-high-level-plots/">Implement high-level circular plots</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06-circos-heatmap/">The circos.heatmap() function</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07-advanced-usage/">Advanced layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09-initialize-genomic-data/">Initialize with genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10-create-plotting-regions/">Create plotting regions for genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11-modes-of-input/">Modes for circos.genomicTrack()</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12-high-level-genomic-functions/">High-level genomic functions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13-nested-zooming/">Nested zooming</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Graphics</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="graphics">Graphics</h1>
+<h2 id="segments">Segments</h2>
+<pre><code class="language-r">cc = ccPlot(sectors = letters[1:8], xlim = c(0, 1))
+t1 = ccTrack(ylim = c(0, 1), track.height = 0.3, panel.fun = function(x, y) {
+    x = seq(0.2, 0.8, by = 0.2)
+    y = seq(0.2, 0.8, by = 0.2)
+
+    circos.segments(x, 0.1, x, 0.9)
+    circos.segments(0.1, y, 0.9, y)
+})
+cc + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/circlize-segments-1.png" alt="Draw segments." width="672" />
+<p class="caption">Draw segments.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h2 id="barplots-boxplots-and-violin-plots">Barplots, boxplots and violin plots</h2>
+<pre><code class="language-r">par(mfrow = c(1, 2))
+cc = ccPlot(sectors = letters[1:4], xlim = c(0, 10))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    value = runif(10)
+    circos.barplot(value, 1:10 - 0.5, col = 1:10)
+})
+t2 = ccTrack(ylim = c(-1, 1), panel.fun = function(x, y) {
+    value = runif(10, min = -1, max = 1)
+    circos.barplot(value, 1:10 - 0.5, col = ifelse(value &gt; 0, 2, 3))
+})
+cc + t1 + t2
+
+cc = ccPlot(sectors =letters[1:4], xlim = c(0, 10))
+t1 = ccTrack(ylim = c(0, 4), panel.fun = function(x, y) {
+    value = matrix(runif(10*4), ncol = 4)
+    circos.barplot(value, 1:10 - 0.5, col = 2:5)
+})
+cc + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/circlize-barplot-1.png" alt="Circular barplots." width="768" />
+<p class="caption">Circular barplots.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<pre><code class="language-r">par(mfrow = c(1, 2))
+cc = ccPlot(sectors = letters[1:4], xlim = c(0, 10))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    for(pos in seq(0.5, 9.5, by = 1)) {
+        value = runif(10)
+        circos.boxplot(value, pos)
+    }
+})
+cc + t1
+
+cc = ccPlot(sectors = letters[1:4], xlim = c(0, 10))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    value = replicate(runif(10), n = 10, simplify = FALSE)
+    circos.boxplot(value, 1:10 - 0.5, col = 1:10)
+})
+cc + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/circlize-boxplot-1.png" alt="Circular boxplots." width="768" />
+<p class="caption">Circular boxplots.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<pre><code class="language-r">par(mfrow = c(1, 2))
+cc = ccPlot(sectors = letters[1:4], xlim = c(0, 10))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    for(pos in seq(0.5, 9.5, by = 1)) {
+        value = runif(10)
+        circos.violin(value, pos)
+    }
+})
+cc + t1
+
+cc = ccPlot(sectorsletters[1:4], xlim = c(0, 10))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    value = replicate(runif(10), n = 10, simplify = FALSE)
+    circos.violin(value, 1:10 - 0.5, col = 1:10)
+})
+cc + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/circlize-violinplot-1.png" alt="Circular violin plots." width="768" />
+<p class="caption">Circular violin plots.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h2 id="circular-arrows">Circular arrows</h2>
+<pre><code class="language-r">par(mfrow = c(1, 2))
+cc = ccPlot(sectors = letters[1:4], xlim = c(0, 1))
+col = rand_color(4)
+tail = c(&quot;point&quot;, &quot;normal&quot;, &quot;point&quot;, &quot;normal&quot;)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.arrow(x1 = 0, x2 = 1, y = 0.5, width = 0.4, 
+        arrow.head.width = 0.6, arrow.head.length = cm_x(1), 
+        col = col[CELL_META$sector.numeric.index], 
+        tail = tail[CELL_META$sector.numeric.index])
+}, bg.border = NA, track.height = 0.4)
+cc + t1
+cc = ccPlot(sectors = letters[1:4], xlim = c(0, 1))
+tail = c(&quot;point&quot;, &quot;normal&quot;, &quot;point&quot;, &quot;normal&quot;)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.arrow(x1 = 0, x2 = 1, y = 0.5, width = 0.4, 
+        arrow.head.width = 0.6, arrow.head.length = cm_x(1), 
+        col = col[CELL_META$sector.numeric.index], 
+        tail = tail[CELL_META$sector.numeric.index],
+        arrow.position = &quot;start&quot;)
+}, bg.border = NA, track.height = 0.4)
+cc + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/circular-arrow-1.png" alt="Circular arrows." width="768" />
+<p class="caption">Circular arrows.</p>
+</div>
+
+<pre><code class="language-r">cell_cycle = data.frame(phase = factor(c(&quot;G1&quot;, &quot;S&quot;, &quot;G2&quot;, &quot;M&quot;), levels = c(&quot;G1&quot;, &quot;S&quot;, &quot;G2&quot;, &quot;M&quot;)),
+                        hour = c(11, 8, 4, 1))
+color = c(&quot;#66C2A5&quot;, &quot;#FC8D62&quot;, &quot;#8DA0CB&quot;, &quot;#E78AC3&quot;)
+ccp = ccPar(start.degree = 90)
+cc = ccPlot(sectors = cell_cycle$phase, xlim = cbind(rep(0, 4), cell_cycle$hour))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.arrow(CELL_META$xlim[1], CELL_META$xlim[2], 
+        arrow.head.width = CELL_META$yrange*0.8, arrow.head.length = cm_x(0.5),
+        col = color[CELL_META$sector.numeric.index])
+    circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index, 
+        facing = &quot;downward&quot;)
+    circos.axis(h = 1, major.at = seq(0, round(CELL_META$xlim[2])), minor.ticks = 1,
+        labels.cex = 0.6)
+}, bg.border = NA, track.height = 0.3)
+cc + ccp + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/cell-cycle-1.png" alt="Cell cycle." width="384" />
+<p class="caption">Cell cycle.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h2 id="raster-image">Raster image</h2>
+<pre><code class="language-r">library(png)
+image = system.file(&quot;extdata&quot;, &quot;Rlogo.png&quot;, package = &quot;circlize&quot;)
+image = as.raster(readPNG(image))
+ccp = ccPar(start.degree = 90)
+cc = ccPlot(sectors = letters[1:5], xlim = c(0, 1))
+all_facing_options = c(&quot;inside&quot;, &quot;outside&quot;, &quot;reverse.clockwise&quot;, &quot;clockwise&quot;, &quot;downward&quot;)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.raster(image, CELL_META$xcenter, CELL_META$ycenter, width = &quot;1cm&quot;, 
+        facing = all_facing_options[CELL_META$sector.numeric.index])
+    circos.text(CELL_META$xcenter, CELL_META$ycenter, 
+        all_facing_options[CELL_META$sector.numeric.index],
+        facing = &quot;inside&quot;, niceFacing = TRUE)
+})
+cc + ccp + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/raster-normal-1.png" alt="Five facings of raster image." width="384" />
+<p class="caption">Five facings of raster image.</p>
+</div>
+
+<pre><code class="language-r">load(system.file(&quot;extdata&quot;, &quot;doodle.RData&quot;, package = &quot;circlize&quot;))
+ccp = ccPar(&quot;cell.padding&quot; = c(0, 0, 0, 0))
+cc = ccPlot(sectors = letters[1:16], xlim = c(0, 1))
+t1 =ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    img = img_list[[CELL_META$sector.numeric.index]]
+    circos.raster(img, CELL_META$xcenter, CELL_META$ycenter, 
+        width = CELL_META$xrange, height = CELL_META$yrange, 
+        facing = &quot;bending.inside&quot;)
+}, track.height = 0.25, bg.border = NA)
+t2 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    img = img_list[[CELL_META$sector.numeric.index + 16]]
+    circos.raster(img, CELL_META$xcenter, CELL_META$ycenter, 
+        width = CELL_META$xrange, height = CELL_META$yrange, 
+        facing = &quot;bending.inside&quot;)
+}, track.height = 0.25, bg.border = NA)
+cc + ccp + t1 + t2
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../images/doodle.jpeg" alt="Fill raster image to the cell." width="400" />
+<p class="caption">Fill raster image to the cell.</p>
+</div>
+
+<h2 id="work-together-with-the-base-graphic-system">Work together with the base graphic system</h2>
+<pre><code class="language-r">sectors = letters[1:4]
+cc = ccPlot(sectors = sectors, xlim = c(0, 1))
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.points(1:20/20, 1:20/20)
+})
+cc + t1
+text(0, 0, &quot;This is\nthe center&quot;, cex = 1.5)
+legend(&quot;bottomleft&quot;, pch = 1, legend = &quot;This is the legend&quot;)
+title(&quot;This is the title&quot;)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../03-graphics_files/figure-html/circlize-base-1.png" alt="Work with base graphic functions." width="672" />
+<p class="caption">Work with base graphic functions.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../02-circlize-layout/" class="btn btn-neutral float-left" title="Circular layout"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../04-legends/" class="btn btn-neutral float-right" title="Legends">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../02-circlize-layout/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../04-legends/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

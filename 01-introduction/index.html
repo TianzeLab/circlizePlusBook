@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Introduction - Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction";
+        var mkdocs_page_input_path = "01-introduction.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Prerequisite</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Introduction</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#a-quick-glance">A quick glance</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02-circlize-layout/">Circular layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03-graphics/">Graphics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04-legends/">Legends</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05-implement-high-level-plots/">Implement high-level circular plots</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06-circos-heatmap/">The circos.heatmap() function</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07-advanced-usage/">Advanced layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09-initialize-genomic-data/">Initialize with genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10-create-plotting-regions/">Create plotting regions for genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11-modes-of-input/">Modes for circos.genomicTrack()</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12-high-level-genomic-functions/">High-level genomic functions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13-nested-zooming/">Nested zooming</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="introduction">Introduction</h1>
+<h2 id="a-quick-glance">A quick glance</h2>
+<pre><code class="language-r">set.seed(999)
+n = 1000
+df = data.frame(sectors = sample(letters[1:8], n, replace = TRUE),
+    x = rnorm(n), y = runif(n))
+</code></pre>
+<pre><code class="language-r">library(circlizePlus)
+par1=ccPar(&quot;track.height&quot; = 0.1)
+cc=ccPlot(sectors = df$sectors, x = df$x) + par1
+</code></pre>
+<pre><code class="language-r">track1 = ccTrack(sectors = df$sectors, y = df$y,
+    panel.fun = function(x, y) {
+        circos.text(CELL_META$xcenter, 
+            CELL_META$cell.ylim[2] + mm_y(5), 
+            CELL_META$sector.index)
+        circos.axis(labels.cex = 0.6)
+})
+col = rep(c(&quot;#FF0000&quot;, &quot;#00FF00&quot;), 4)
+tackPoint1 = ccTrackPoints(sectors = df$sectors, x = df$x, y = df$y, col = col, pch = 16, cex = 0.5)
+cell1 = ccCell(sector.index = 'a') + ccText(-1, 0.5, &quot;text&quot;)
+track1 = track1 + cell1 + tackPoint1
+cc = cc + track1
+cc
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../01-introduction_files/figure-html/circlize-glance-track-1-1.png" alt="First example of circlize, add the first track." width="672" />
+<p class="caption">First example of circlize, add the first track.</p>
+</div>
+
+<pre><code class="language-r">bgcol = rep(c(&quot;#EFEFEF&quot;, &quot;#CCCCCC&quot;), 4)
+track2 = ccTrackHist(df$sectors, df$x, bin.size = 0.2, bg.col = bgcol, col = NA)
+cc = cc + track2
+cc
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../01-introduction_files/figure-html/circlize-glance-track-2-1.png" alt="First example of circlize, add the second track." width="672" />
+<p class="caption">First example of circlize, add the second track.</p>
+</div>
+
+<pre><code class="language-r">track3 = ccTrack(df$sectors, x = df$x, y = df$y,
+    panel.fun = function(x, y) {
+        ind = sample(length(x), 10)
+        x2 = x[ind]
+        y2 = y[ind]
+        od = order(x2)
+        circos.lines(x2[od], y2[od])
+})
+cc = cc + track3
+cc
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../01-introduction_files/figure-html/circlize-glance-track-3-1.png" alt="First example of circlize, add the third track." width="672" />
+<p class="caption">First example of circlize, add the third track.</p>
+</div>
+
+<pre><code class="language-r">track4 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    xlim = CELL_META$xlim
+    ylim = CELL_META$ylim
+    breaks = seq(xlim[1], xlim[2], by = 0.1)
+    n_breaks = length(breaks)
+    circos.rect(breaks[-n_breaks], rep(ylim[1], n_breaks - 1),
+                breaks[-1], rep(ylim[2], n_breaks - 1),
+                col = rand_color(n_breaks), border = NA)
+})
+cc = cc + track4
+cc
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../01-introduction_files/figure-html/circlize-glance-track-4-1.png" alt="First example of circlize, add the fourth track." width="672" />
+<p class="caption">First example of circlize, add the fourth track.</p>
+</div>
+
+<pre><code class="language-r">link1 = ccLink(&quot;a&quot;, 0, &quot;b&quot;, 0, h = 0.4)
+link2 = ccLink(&quot;c&quot;, c(-0.5, 0.5), &quot;d&quot;, c(-0.5,0.5), col = &quot;red&quot;,
+    border = &quot;blue&quot;, h = 0.2)
+link3 = ccLink(&quot;e&quot;, 0, &quot;g&quot;, c(-1,1), col = &quot;green&quot;, border = &quot;black&quot;, lwd = 2, lty = 2)
+cc = cc + link1 + link2 + link3
+cc
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../01-introduction_files/figure-html/circlize-glance-track-links-1.png" alt="First example of circlize, add links." width="672" />
+<p class="caption">First example of circlize, add links.</p>
+</div>
+
+<pre><code class="language-r">circos.update(sector.index = &quot;d&quot;, track.index = 2, 
+    bg.col = &quot;#FF8080&quot;, bg.border = &quot;black&quot;)
+circos.points(x = -2:2, y = rep(0.5, 5), col = &quot;white&quot;)
+circos.text(CELL_META$xcenter, CELL_META$ycenter, &quot;updated&quot;, col = &quot;white&quot;)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../01-introduction_files/figure-html/circlize-glance-track-update-1.png" alt="First example of circlize, update the second track." width="672" />
+<p class="caption">First example of circlize, update the second track.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Prerequisite"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../02-circlize-layout/" class="btn btn-neutral float-right" title="Circular layout">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../02-circlize-layout/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

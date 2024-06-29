@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Initialize with genomic data - Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Initialize with genomic data";
+        var mkdocs_page_input_path = "09-initialize-genomic-data.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Prerequisite</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../01-introduction/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02-circlize-layout/">Circular layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03-graphics/">Graphics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04-legends/">Legends</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05-implement-high-level-plots/">Implement high-level circular plots</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06-circos-heatmap/">The circos.heatmap() function</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07-advanced-usage/">Advanced layout</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Initialize with genomic data</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#initialize-with-cytoband-data">Initialize with cytoband data</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic usage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-defined-tracks">Pre-defined tracks</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#other-general-settings">Other general settings</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#customize-chromosome-track">Customize chromosome track</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#initialize-with-general-genomic-category">Initialize with general genomic category</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#zooming-chromosomes">Zooming chromosomes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#concatenating-two-genomes">Concatenating two genomes</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10-create-plotting-regions/">Create plotting regions for genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11-modes-of-input/">Modes for circos.genomicTrack()</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12-high-level-genomic-functions/">High-level genomic functions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13-nested-zooming/">Nested zooming</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Initialize with genomic data</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="initialize-with-genomic-data">Initialize with genomic data</h1>
+<p><strong>circlize</strong> is quite flexible to initialize the circular plot
+not only by chromosomes, but also by any type of general genomic categories.</p>
+<h2 id="initialize-with-cytoband-data">Initialize with cytoband data</h2>
+<h3 id="basic-usage">Basic usage</h3>
+<pre><code class="language-r">ccPlot(initFunc='initializeWithIdeogram')
+text(0, 0, &quot;default&quot;, cex = 1)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-initialize-ideogram-default-1.png" alt="Initialize genomic plot, default." width="672" />
+<p class="caption">Initialize genomic plot, default.</p>
+</div>
+
+<pre><code class="language-r">cytoband.file = system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;cytoBand.txt&quot;)
+cc = ccPlot(initFunc='initializeWithIdeogram', cytoband  = cytoband.file)
+cc
+
+cytoband.df = read.table(cytoband.file, colClasses = c(&quot;character&quot;, &quot;numeric&quot;,
+    &quot;numeric&quot;, &quot;character&quot;, &quot;character&quot;), sep = &quot;\t&quot;)
+cc = ccPlot(initFunc='initializeWithIdeogram', cytoband  = cytoband.df)
+cc
+</code></pre>
+<pre><code class="language-r">cc = ccPlot(initFunc='initializeWithIdeogram', chromosome.index = paste0(&quot;chr&quot;, c(3,5,2,8)))
+cc
+text(0, 0, &quot;subset of chromosomes&quot;, cex = 1)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-initialize-ideogram-subset-1.png" alt="Initialize genomic plot, subset chromosomes." width="672" />
+<p class="caption">Initialize genomic plot, subset chromosomes.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="pre-defined-tracks">Pre-defined tracks</h3>
+<pre><code class="language-r">cc = ccPlot(initFunc='initializeWithIdeogram', plotType = c(&quot;axis&quot;, &quot;labels&quot;))
+cc
+text(0, 0, &quot;plotType = c('axis', 'labels')&quot;, cex = 1)
+circos.clear()
+
+cc = ccPlot(initFunc='initializeWithIdeogram', plotType = NULL)
+cc
+text(0, 0, &quot;plotType = NULL&quot;, cex = 1)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-initialize-ideogram-track-1.png" alt="Initialize genomic plot, control tracks." width="768" />
+<p class="caption">Initialize genomic plot, control tracks.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="other-general-settings">Other general settings</h3>
+<pre><code class="language-r">par1 = ccPar(&quot;start.degree&quot; = 90)
+cc = ccPlot(initFunc='initializeWithIdeogram')
+cc + par1
+circos.clear()
+text(0, 0, &quot;'start.degree' = 90&quot;, cex = 1)
+
+par1 = ccPar(&quot;gap.degree&quot; = rep(c(2, 4), 12))
+cc = ccPlot(initFunc='initializeWithIdeogram')
+cc + par1
+circos.clear()
+text(0, 0, &quot;'gap.degree' = rep(c(2, 4), 12)&quot;, cex = 1)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-initialize-ideogram-par-1.png" alt="Initialize genomic plot, control layout." width="768" />
+<p class="caption">Initialize genomic plot, control layout.</p>
+</div>
+
+<h2 id="customize-chromosome-track">Customize chromosome track</h2>
+<pre><code class="language-r">set.seed(123)
+cc = ccPlot(initFunc='initializeWithIdeogram', plotType = NULL)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    chr = CELL_META$sector.index
+    xlim = CELL_META$xlim
+    ylim = CELL_META$ylim
+    circos.rect(xlim[1], 0, xlim[2], 1, col = rand_color(1))
+    circos.text(mean(xlim), mean(ylim), chr, cex = 0.7, col = &quot;white&quot;,
+        facing = &quot;inside&quot;, niceFacing = TRUE)
+}, track.height = 0.15, bg.border = NA)
+cc + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-customize-chromosome-1.png" alt="Customize chromosome track." width="672" />
+<p class="caption">Customize chromosome track.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h2 id="initialize-with-general-genomic-category">Initialize with general genomic category</h2>
+<pre><code class="language-r">tp_family = readRDS(system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;tp_family_df.rds&quot;))
+head(tp_family)
+</code></pre>
+<pre><code class="language-r">cc = ccPlot(initFunc = 'initializeWithIdeogram', cytoband = tp_family)
+t1 = ccTrack(ylim = c(0, 1), 
+    bg.col = c(&quot;#FF000040&quot;, &quot;#00FF0040&quot;, &quot;#0000FF40&quot;), 
+    bg.border = NA, track.height = 0.05)
+</code></pre>
+<pre><code class="language-r">n = max(tapply(tp_family$transcript, tp_family$gene, function(x) length(unique(x))))
+t2 = ccGenomicTrack(data = tp_family, ylim = c(0.5, n + 0.5), 
+    panel.fun = function(region, value, ...) {
+        all_tx = unique(value$transcript)
+        for(i in seq_along(all_tx)) {
+            l = value$transcript == all_tx[i]
+            # for each transcript
+            current_tx_start = min(region[l, 1])
+            current_tx_end = max(region[l, 2])
+            circos.lines(c(current_tx_start, current_tx_end), 
+                c(n - i + 1, n - i + 1), col = &quot;#CCCCCC&quot;)
+            circos.genomicRect(region[l, , drop = FALSE], ytop = n - i + 1 + 0.4, 
+                ybottom = n - i + 1 - 0.4, col = &quot;orange&quot;, border = NA)
+        }
+}, bg.border = NA, track.height = 0.4)
+cc + t1 + t2
+circos.clear()
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-gene-model-1.png" alt="Circular representation of alternative transcripts for genes." width="576" />
+<p class="caption">Circular representation of alternative transcripts for genes.</p>
+</div>
+
+<h2 id="zooming-chromosomes">Zooming chromosomes</h2>
+<pre><code class="language-r">extend_chromosomes = function(bed, chromosome, prefix = &quot;zoom_&quot;) {
+    zoom_bed = bed[bed[[1]] %in% chromosome, , drop = FALSE]
+    zoom_bed[[1]] = paste0(prefix, zoom_bed[[1]])
+    rbind(bed, zoom_bed)
+}
+</code></pre>
+<pre><code class="language-r">cytoband = read.cytoband()
+cytoband_df = cytoband$df
+chromosome = cytoband$chromosome
+
+xrange = c(cytoband$chr.len, cytoband$chr.len[c(&quot;chr1&quot;, &quot;chr2&quot;)])
+normal_chr_index = 1:24
+zoomed_chr_index = 25:26
+
+# normalize in normal chromsomes and zoomed chromosomes separately
+sector.width = c(xrange[normal_chr_index] / sum(xrange[normal_chr_index]), 
+                 xrange[zoomed_chr_index] / sum(xrange[zoomed_chr_index])) 
+</code></pre>
+<pre><code class="language-r">par1 = ccPar(start.degree = 90)
+cc = ccPlot(initFunc = 'initializeWithIdeogram', cytoband = extend_chromosomes(cytoband_df, c(&quot;chr1&quot;, &quot;chr2&quot;)), 
+    sector.width = sector.width)
+</code></pre>
+<pre><code class="language-r">bed = generateRandomBed(500)
+t1 = ccGenomicTrack(extend_chromosomes(bed, c(&quot;chr1&quot;, &quot;chr2&quot;)),
+    panel.fun = function(region, value, ...) {
+        circos.genomicPoints(region, value, pch = 16, cex = 0.3)
+})
+cc + par1 + t1
+</code></pre>
+<pre><code class="language-r">circos.link(&quot;chr1&quot;, get.cell.meta.data(&quot;cell.xlim&quot;, sector.index = &quot;chr1&quot;),
+    &quot;zoom_chr1&quot;, get.cell.meta.data(&quot;cell.xlim&quot;, sector.index = &quot;zoom_chr1&quot;),
+    col = &quot;#00000020&quot;, border = NA)
+
+circos.clear()
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-zoom-1.png" alt="Zoom chromosomes." width="576" />
+<p class="caption">Zoom chromosomes.</p>
+</div>
+
+<h2 id="concatenating-two-genomes">Concatenating two genomes</h2>
+<pre><code class="language-r">human_cytoband = read.cytoband(species = &quot;hg19&quot;)$df
+mouse_cytoband = read.cytoband(species = &quot;mm10&quot;)$df
+</code></pre>
+<pre><code class="language-r">human_cytoband[ ,1] = paste0(&quot;human_&quot;, human_cytoband[, 1])
+mouse_cytoband[ ,1] = paste0(&quot;mouse_&quot;, mouse_cytoband[, 1])
+</code></pre>
+<pre><code class="language-r">cytoband = rbind(human_cytoband, mouse_cytoband)
+head(cytoband)
+</code></pre>
+<pre><code class="language-r">chromosome.index = c(paste0(&quot;human_chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;)), 
+                     rev(paste0(&quot;mouse_chr&quot;, c(1:19, &quot;X&quot;, &quot;Y&quot;))))
+ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, chromosome.index = chromosome.index)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-combined-default-1.png" alt="Default style of two combined genomes." width="672" />
+<p class="caption">Default style of two combined genomes.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<pre><code class="language-r">par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
+cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, plotType = NULL, 
+    chromosome.index = chromosome.index)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
+        gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
+}, track.height = mm_h(1), cell.padding = c(0, 0, 0, 0), bg.border = NA)
+t2 = ccGenomicIdeogram(cytoband)
+cc + par1 + t1 + t2
+highlight.chromosome(paste0(&quot;human_chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;)), 
+    col = &quot;red&quot;, track.index = 1)
+highlight.chromosome(paste0(&quot;mouse_chr&quot;, c(1:19, &quot;X&quot;, &quot;Y&quot;)), 
+    col = &quot;blue&quot;, track.index = 1)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-combined-improved-1.png" alt="Improved visualization of the combined genome." width="672" />
+<p class="caption">(\#fig:genomic-combined-improved)Improved visualization of the combined genome.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<pre><code class="language-r">human_chromInfo = read.chromInfo(species = &quot;hg19&quot;)$df
+mouse_chromInfo = read.chromInfo(species = &quot;mm10&quot;)$df
+human_chromInfo[ ,1] = paste0(&quot;human_&quot;, human_chromInfo[, 1])
+mouse_chromInfo[ ,1] = paste0(&quot;mouse_&quot;, mouse_chromInfo[, 1])
+chromInfo = rbind(human_chromInfo, mouse_chromInfo)
+# note the levels of the factor controls the chromosome orders in the plot
+chromInfo[, 1] = factor(chromInfo[ ,1], levels = chromosome.index)
+head(chromInfo)
+</code></pre>
+<pre><code class="language-r">par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
+cc = ccPlot(initFunc = &quot;genomicInitialize&quot;, data = chromInfo, plotType = NULL)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
+        gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
+}, track.height = mm_h(1), cell.padding = c(0, 0, 0, 0), bg.border = NA)
+t2 = ccTrack(ylim = c(0, 1))
+cc + par1 + t1 + t2
+highlight.chromosome(paste0(&quot;human_chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;)), 
+    col = &quot;red&quot;, track.index = 1)
+highlight.chromosome(paste0(&quot;mouse_chr&quot;, c(1:19, &quot;X&quot;, &quot;Y&quot;)), 
+    col = &quot;blue&quot;, track.index = 1)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-combined-genomic-initialize-1.png" alt="Initialize the plot with chromosome ranges." width="672" />
+<p class="caption">Initialize the plot with chromosome ranges.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<pre><code class="language-r">par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
+cc = ccPlot(initFunc = &quot;genomicInitialize&quot;, data = chromInfo, plotType = NULL)
+t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
+        gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
+}, track.height = mm_h(1), cell.padding = c(0, 0, 0, 0), bg.border = NA)
+t2 = ccGenomicIdeogram(cytoband = cytoband)
+highlight.chromosome(paste0(&quot;human_chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;)), 
+    col = &quot;red&quot;, track.index = 1)
+highlight.chromosome(paste0(&quot;mouse_chr&quot;, c(1:19, &quot;X&quot;, &quot;Y&quot;)), 
+    col = &quot;blue&quot;, track.index = 1)
+
+# a track of points
+human_df = generateRandomBed(200, species = &quot;hg19&quot;)
+mouse_df = generateRandomBed(200, species = &quot;mm10&quot;)
+human_df[ ,1] = paste0(&quot;human_&quot;, human_df[, 1])
+mouse_df[ ,1] = paste0(&quot;mouse_&quot;, mouse_df[, 1])
+df = rbind(human_df, mouse_df)
+t3 = ccGenomicTrack(df, panel.fun = function(region, value, ...) {
+    circos.genomicPoints(region, value, col = rand_color(1), cex = 0.5, ...)
+})
+
+# links between human and mouse genomes
+human_mid = data.frame(
+    chr = paste0(&quot;human_chr&quot;, 1:19),
+    mid = round((human_chromInfo[1:19, 2] + human_chromInfo[1:19, 3])/2)
+)
+mouse_mid = data.frame(
+    chr = paste0(&quot;mouse_chr&quot;, 1:19),
+    mid = round((mouse_chromInfo[1:19, 2] + mouse_chromInfo[1:19, 3])/2)
+)
+l1 = ccGenomicLink(human_mid, mouse_mid, col = rand_color(19))
+cc + par1 + t1 + t2 + t3 + l1
+circos.clear()
+text(-0.9, -0.8, &quot;Human\ngenome&quot;)
+text(0.9, 0.8, &quot;Mouse\ngenome&quot;)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../09-initialize-genomic-data_files/figure-html/genomic-combined-more-tracks-1.png" alt="The combined genome with more tracks." width="672" />
+<p class="caption">The combined genome with more tracks.</p>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../07-advanced-usage/" class="btn btn-neutral float-left" title="Advanced layout"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../10-create-plotting-regions/" class="btn btn-neutral float-right" title="Create plotting regions for genomic data">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../07-advanced-usage/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../10-create-plotting-regions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

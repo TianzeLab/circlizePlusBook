@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Implement high-level circular plots - Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Implement high-level circular plots";
+        var mkdocs_page_input_path = "05-implement-high-level-plots.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Prerequisite</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../01-introduction/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02-circlize-layout/">Circular layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03-graphics/">Graphics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04-legends/">Legends</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Implement high-level circular plots</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#circular-barplots">Circular barplots</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#histograms">Histograms</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phylogenetic-trees">Phylogenetic trees</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#manually-create-heatmaps">Manually create heatmaps</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06-circos-heatmap/">The circos.heatmap() function</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07-advanced-usage/">Advanced layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09-initialize-genomic-data/">Initialize with genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10-create-plotting-regions/">Create plotting regions for genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11-modes-of-input/">Modes for circos.genomicTrack()</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12-high-level-genomic-functions/">High-level genomic functions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13-nested-zooming/">Nested zooming</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Implement high-level circular plots</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="implement-high-level-circular-plots">Implement high-level circular plots</h1>
+<h2 id="circular-barplots">Circular barplots</h2>
+<pre><code class="language-r">category = paste0(&quot;category&quot;, &quot;_&quot;, 1:9)
+percent = sort(sample(40:80, 9))
+color = rev(rainbow(length(percent)))
+
+par1 = ccPar(&quot;start.degree&quot; = 90, cell.padding = c(0, 0, 0, 0))
+cc = ccPlot(sectors = &quot;a&quot;, xlim = c(0, 100)) # 'a` just means there is one sector
+t1 = ccTrack(ylim = c(0.5, length(percent)+0.5), track.height = 0.8, 
+    bg.border = NA, panel.fun = function(x, y) {
+        xlim = CELL_META$xlim
+        circos.segments(rep(xlim[1], 9), 1:9,
+                        rep(xlim[2], 9), 1:9,
+                        col = &quot;#CCCCCC&quot;)
+        circos.rect(rep(0, 9), 1:9 - 0.45, percent, 1:9 + 0.45,
+            col = color, border = &quot;white&quot;)
+        circos.text(rep(xlim[1], 9), 1:9, 
+            paste(category, &quot; - &quot;, percent, &quot;%&quot;), 
+            facing = &quot;downward&quot;, adj = c(1.05, 0.5), cex = 0.8) 
+        breaks = seq(0, 85, by = 5)
+        circos.axis(h = &quot;top&quot;, major.at = breaks, labels = paste0(breaks, &quot;%&quot;), 
+            labels.cex = 0.6)
+})
+cc + par1 + t1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../05-implement-high-level-plots_files/figure-html/circular-barplot-1.png" alt="A circular barplot." width="672" />
+<p class="caption">A circular barplot.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<pre><code class="language-r">circos.text(xlim[1] - mm_x(2, h = 1:9), 1:9, 
+    paste(category, &quot; - &quot;, percent, &quot;%&quot;), 
+    facing = &quot;downward&quot;, adj = c(1, 0.5), cex = 0.8)
+</code></pre>
+<h2 id="histograms">Histograms</h2>
+<pre><code class="language-r">x = rnorm(1600)
+sectors = sample(letters[1:16], 1600, replace = TRUE)
+cc = ccPlot(sectors = sectors, x = x)
+t1 = ccTrackHist(sectors, x = x, col = &quot;#999999&quot;, 
+    border = &quot;#999999&quot;)
+t2 = ccTrackHist(sectors, x = x, bin.size = 0.1, 
+    col = &quot;#999999&quot;, border = &quot;#999999&quot;)
+t3 = ccTrackHist(sectors, x = x, draw.density = TRUE, 
+    col = &quot;#999999&quot;, border = &quot;#999999&quot;)
+cc + t1 + t2 + t3
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../05-implement-high-level-plots_files/figure-html/circular-histograms-1.png" alt="Histograms on circular layout." width="672" />
+<p class="caption">Histograms on circular layout.</p>
+</div>
+
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h2 id="phylogenetic-trees">Phylogenetic trees</h2>
+<pre><code class="language-r">library(ape)
+data(bird.orders)
+hc = as.hclust(bird.orders)
+</code></pre>
+<pre><code class="language-r">labels = hc$labels  # name of birds
+ct = cutree(hc, 6)  # cut tree into 6 pieces
+n = length(labels)  # number of bird species
+dend = as.dendrogram(hc)
+</code></pre>
+<pre><code class="language-r">par1 = ccPar(cell.padding = c(0, 0, 0, 0))
+cc = ccPlot(sectors = &quot;a&quot;, xlim = c(0, n)) # only one sector
+t1 = ccTrack(ylim = c(0, 1), bg.border = NA, track.height = 0.3, 
+    panel.fun = function(x, y) {
+        for(i in seq_len(n)) {
+            circos.text(i-0.5, 0, labels[i], adj = c(0, 0.5), 
+                facing = &quot;clockwise&quot;, niceFacing = TRUE,
+                col = ct[labels[i]], cex = 0.5)
+        }
+})
+</code></pre>
+<pre><code class="language-r">suppressPackageStartupMessages(library(dendextend))
+dend = color_branches(dend, k = 6, col = 1:6)
+dend_height = attr(dend, &quot;height&quot;)
+t2 = ccTrack(ylim = c(0, dend_height), bg.border = NA, 
+    track.height = 0.4, panel.fun = function(x, y) {
+        circos.dendrogram(dend)
+})
+cc + par1 + t1 + t2
+</code></pre>
+<pre><code class="language-r">circos.dendrogram(dend, facing = &quot;inside&quot;)
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../05-implement-high-level-plots_files/figure-html/phylogenetic-tree-1.png" alt="A circular phylogenetic tree." width="768" />
+<p class="caption">(\#fig:phylogenetic-tree)A circular phylogenetic tree.</p>
+</div>
+
+<h2 id="manually-create-heatmaps">Manually create heatmaps</h2>
+<pre><code class="language-r">mat = matrix(rnorm(100*10), nrow = 100, ncol = 10)
+col_fun = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
+sectors = rep(letters[1:2], times = c(30, 70))
+mat_list = list(a = mat[sectors == &quot;a&quot;, ],
+                b = mat[sectors == &quot;b&quot;, ])
+dend_list = list(a = as.dendrogram(hclust(dist(mat_list[[&quot;a&quot;]]))),
+                 b = as.dendrogram(hclust(dist(mat_list[[&quot;b&quot;]]))))
+</code></pre>
+<pre><code class="language-r">par1 = ccPar(cell.padding = c(0, 0, 0, 0), gap.degree = 5)
+cc = ccPlot(sectors = sectors, xlim = cbind(c(0, 0), table(sectors)))
+t1 = ccTrack(ylim = c(0, 10), bg.border = NA, panel.fun = function(x, y) {
+    sector.index = CELL_META$sector.index
+    m = mat_list[[sector.index]]
+    dend = dend_list[[sector.index]]
+
+    m2 = m[order.dendrogram(dend), ]
+    col_mat = col_fun(m2)
+    nr = nrow(m2)
+    nc = ncol(m2)
+    for(i in 1:nc) {
+        circos.rect(1:nr - 1, rep(nc - i, nr), 
+            1:nr, rep(nc - i + 1, nr), 
+            border = col_mat[, i], col = col_mat[, i])
+    }
+})
+</code></pre>
+<pre><code class="language-r">max_height = max(sapply(dend_list, function(x) attr(x, &quot;height&quot;)))
+t2 = ccTrack(ylim = c(0, max_height), bg.border = NA, track.height = 0.3, 
+    panel.fun = function(x, y) {
+        sector.index = get.cell.meta.data(&quot;sector.index&quot;)
+        dend = dend_list[[sector.index]]
+        circos.dendrogram(dend, max_height = max_height)
+})
+cc + par1 + t1 + t2
+circos.clear()
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../05-implement-high-level-plots_files/figure-html/circular-heatmap-1.png" alt="Circular heatmaps." width="672" />
+<p class="caption">Circular heatmaps.</p>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../04-legends/" class="btn btn-neutral float-left" title="Legends"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../06-circos-heatmap/" class="btn btn-neutral float-right" title="The circos.heatmap() function">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../04-legends/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../06-circos-heatmap/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

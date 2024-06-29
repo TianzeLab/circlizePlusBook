@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Circular layout - Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Circular layout";
+        var mkdocs_page_input_path = "02-circlize-layout.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Prerequisite</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../01-introduction/">Introduction</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Circular layout</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#other-utilities">Other utilities</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#absolute-units">Absolute units</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03-graphics/">Graphics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04-legends/">Legends</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05-implement-high-level-plots/">Implement high-level circular plots</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06-circos-heatmap/">The circos.heatmap() function</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07-advanced-usage/">Advanced layout</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09-initialize-genomic-data/">Initialize with genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10-create-plotting-regions/">Create plotting regions for genomic data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11-modes-of-input/">Modes for circos.genomicTrack()</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12-high-level-genomic-functions/">High-level genomic functions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13-nested-zooming/">Nested zooming</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Sample code rewritten by circlizePlus to generate graphics in "Circular Visualization in R"</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Circular layout</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="circular-layout">Circular layout</h1>
+<h2 id="other-utilities">Other utilities</h2>
+<pre><code class="language-r">library(yaml)
+data = yaml.load_file(&quot;https://raw.githubusercontent.com/Templarian/slack-emoji-pokemon/master/pokemon.yaml&quot;)
+set.seed(123)
+pokemon_list = data$emojis[sample(length(data$emojis), 40)]
+pokemon_name = sapply(pokemon_list, function(x) x$name)
+pokemon_src = sapply(pokemon_list, function(x) x$src)
+
+library(EBImage)
+par1 = ccPar(&quot;points.overflow.warning&quot; = FALSE)
+cc = ccPlot(sectors = pokemon_name, xlim = c(0, 1))
+track1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$cell.ylim[1] - mm_y(2),
+        CELL_META$sector.index, facing = &quot;clockwise&quot;, niceFacing = TRUE,
+        adj = c(1, 0.5), cex = 0.6)
+}, bg.border = 1, track.height = 0.15)
+cc + par1 + track1
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../02-circlize-layout_files/figure-html/circular-pokemon-1.png" alt="Add raster image to the circular plot." width="576" />
+<p class="caption">Add raster image to the circular plot.</p>
+</div>
+
+<h3 id="absolute-units">Absolute units</h3>
+<pre><code class="language-r">sectors = letters[1:10]
+par1 = ccPar(cell.padding = c(0, 0, 0, 0), track.margin = c(0, 0))
+cc = ccPlot(sectors = sectors, xlim = cbind(rep(0, 10), runif(10, 0.5, 1.5)))
+track1 = ccTrack(ylim = c(0, 1), track.height = mm_h(5),
+    panel.fun = function(x, y) {
+        circos.lines(c(0, 0 + mm_x(5)), c(0.5, 0.5), col = &quot;blue&quot;)
+    })
+track2 = ccTrack(ylim = c(0, 1), track.height = cm_h(1),
+    track.margin = c(0, mm_h(2)),
+    panel.fun = function(x, y) {
+        xcenter = get.cell.meta.data(&quot;xcenter&quot;)
+        circos.lines(c(xcenter, xcenter), c(0, cm_y(1)), col = &quot;red&quot;)
+    })
+track3 = ccTrack(ylim = c(0, 1), track.height = inch_h(1),
+    track.margin = c(0, mm_h(5)),
+    panel.fun = function(x, y) {
+        line_length_on_x = cm_x(1*sqrt(2)/2)
+        line_length_on_y = cm_y(1*sqrt(2)/2)
+        circos.lines(c(0, line_length_on_x), c(0, line_length_on_y), col = &quot;orange&quot;)
+    })
+cc + par1 + track1 + track2 + track3
+</code></pre>
+<div class="figure" style="text-align: center">
+<img src="../02-circlize-layout_files/figure-html/unit-convert-1.png" alt="Setting absolute units" width="576" />
+<p class="caption">Setting absolute units</p>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../01-introduction/" class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../03-graphics/" class="btn btn-neutral float-right" title="Graphics">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../01-introduction/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../03-graphics/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
