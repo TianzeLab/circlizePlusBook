@@ -10,7 +10,7 @@ bed1 = bed1[sample(nrow(bed1), 20), ]
 bed2 = generateRandomBed(nr = 100)
 bed2 = bed2[sample(nrow(bed2), 20), ]
 
-cc = ccPlot(initFunc = "initializeWithIdeogram")
+cc = ccPlot(initMode = "initializeWithIdeogram")
 l1 =ccGenomicLink(bed1, bed2, col = rand_color(nrow(bed1), transparency = 0.5), border = NA)
 cc + l1
 ```

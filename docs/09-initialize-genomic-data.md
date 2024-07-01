@@ -8,7 +8,7 @@ not only by chromosomes, but also by any type of general genomic categories.
 ### Basic usage
 
 ```r
-ccPlot(initFunc='initializeWithIdeogram')
+ccPlot(initMode='initializeWithIdeogram')
 text(0, 0, "default", cex = 1)
 ```
 
@@ -19,17 +19,17 @@ text(0, 0, "default", cex = 1)
 
 ```r
 cytoband.file = system.file(package = "circlize", "extdata", "cytoBand.txt")
-cc = ccPlot(initFunc='initializeWithIdeogram', cytoband  = cytoband.file)
+cc = ccPlot(initMode='initializeWithIdeogram', cytoband  = cytoband.file)
 cc
 
 cytoband.df = read.table(cytoband.file, colClasses = c("character", "numeric",
     "numeric", "character", "character"), sep = "\t")
-cc = ccPlot(initFunc='initializeWithIdeogram', cytoband  = cytoband.df)
+cc = ccPlot(initMode='initializeWithIdeogram', cytoband  = cytoband.df)
 cc
 ```
 
 ```r
-cc = ccPlot(initFunc='initializeWithIdeogram', chromosome.index = paste0("chr", c(3,5,2,8)))
+cc = ccPlot(initMode='initializeWithIdeogram', chromosome.index = paste0("chr", c(3,5,2,8)))
 cc
 text(0, 0, "subset of chromosomes", cex = 1)
 ```
@@ -46,12 +46,12 @@ circos.clear()
 ### Pre-defined tracks
 
 ```r
-cc = ccPlot(initFunc='initializeWithIdeogram', plotType = c("axis", "labels"))
+cc = ccPlot(initMode='initializeWithIdeogram', plotType = c("axis", "labels"))
 cc
 text(0, 0, "plotType = c('axis', 'labels')", cex = 1)
 circos.clear()
 
-cc = ccPlot(initFunc='initializeWithIdeogram', plotType = NULL)
+cc = ccPlot(initMode='initializeWithIdeogram', plotType = NULL)
 cc
 text(0, 0, "plotType = NULL", cex = 1)
 ```
@@ -69,13 +69,13 @@ circos.clear()
 
 ```r
 par1 = ccPar("start.degree" = 90)
-cc = ccPlot(initFunc='initializeWithIdeogram')
+cc = ccPlot(initMode='initializeWithIdeogram')
 cc + par1
 circos.clear()
 text(0, 0, "'start.degree' = 90", cex = 1)
 
 par1 = ccPar("gap.degree" = rep(c(2, 4), 12))
-cc = ccPlot(initFunc='initializeWithIdeogram')
+cc = ccPlot(initMode='initializeWithIdeogram')
 cc + par1
 circos.clear()
 text(0, 0, "'gap.degree' = rep(c(2, 4), 12)", cex = 1)
@@ -90,7 +90,7 @@ text(0, 0, "'gap.degree' = rep(c(2, 4), 12)", cex = 1)
 
 ```r
 set.seed(123)
-cc = ccPlot(initFunc='initializeWithIdeogram', plotType = NULL)
+cc = ccPlot(initMode='initializeWithIdeogram', plotType = NULL)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     chr = CELL_META$sector.index
     xlim = CELL_META$xlim
@@ -118,7 +118,7 @@ tp_family = readRDS(system.file(package = "circlize", "extdata", "tp_family_df.r
 head(tp_family)
 ```
 ```r
-cc = ccPlot(initFunc = 'initializeWithIdeogram', cytoband = tp_family)
+cc = ccPlot(initMode = 'initializeWithIdeogram', cytoband = tp_family)
 t1 = ccTrack(ylim = c(0, 1), 
     bg.col = c("#FF000040", "#00FF0040", "#0000FF40"), 
     bg.border = NA, track.height = 0.05)
@@ -176,7 +176,7 @@ sector.width = c(xrange[normal_chr_index] / sum(xrange[normal_chr_index]),
 
 ```r
 par1 = ccPar(start.degree = 90)
-cc = ccPlot(initFunc = 'initializeWithIdeogram', cytoband = extend_chromosomes(cytoband_df, c("chr1", "chr2")), 
+cc = ccPlot(initMode = 'initializeWithIdeogram', cytoband = extend_chromosomes(cytoband_df, c("chr1", "chr2")), 
     sector.width = sector.width)
 ```
 
@@ -223,7 +223,7 @@ head(cytoband)
 ```r
 chromosome.index = c(paste0("human_chr", c(1:22, "X", "Y")), 
                      rev(paste0("mouse_chr", c(1:19, "X", "Y"))))
-ccPlot(initFunc = "initializeWithIdeogram", cytoband = cytoband, chromosome.index = chromosome.index)
+ccPlot(initMode = "initializeWithIdeogram", cytoband = cytoband, chromosome.index = chromosome.index)
 ```
 
 <div class="figure" style="text-align: center">
@@ -237,7 +237,7 @@ circos.clear()
 
 ```r
 par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
-cc = ccPlot(initFunc = "initializeWithIdeogram", cytoband = cytoband, plotType = NULL, 
+cc = ccPlot(initMode = "initializeWithIdeogram", cytoband = cytoband, plotType = NULL, 
     chromosome.index = chromosome.index)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
@@ -274,7 +274,7 @@ head(chromInfo)
 
 ```r
 par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
-cc = ccPlot(initFunc = "genomicInitialize", data = chromInfo, plotType = NULL)
+cc = ccPlot(initMode = "genomicInitialize", data = chromInfo, plotType = NULL)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
         gsub(".*chr", "", CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
@@ -298,7 +298,7 @@ circos.clear()
 
 ```r
 par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
-cc = ccPlot(initFunc = "genomicInitialize", data = chromInfo, plotType = NULL)
+cc = ccPlot(initMode = "genomicInitialize", data = chromInfo, plotType = NULL)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
         gsub(".*chr", "", CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)

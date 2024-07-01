@@ -7,7 +7,7 @@
 ## Ideograms
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram", plotType = c("labels", "axis"))
+cc = ccPlot(initMode = "initializeWithIdeogram", plotType = c("labels", "axis"))
 t1 = ccTrack(ylim = c(0, 1))
 t2 =ccGenomicIdeogram() # put ideogram as the third track
 t3 = ccGenomicIdeogram(track.height = 0.2)
@@ -23,7 +23,7 @@ cc + t1 + t2 + t3
 
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram")
+cc = ccPlot(initMode = "initializeWithIdeogram")
 bed = generateRandomBed(nr = 100, nc = 4)
 col_fun = colorRamp2(c(-1, 0, 1), c("green", "black", "red"))
 t1 = ccGenomicHeatmap(bed, col = col_fun, side = "inside", border = "white")
@@ -33,7 +33,7 @@ circos.clear()
 
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram", plotType = NULL)
+cc = ccPlot(initMode = "initializeWithIdeogram", plotType = NULL)
 t1 = ccGenomicHeatmap(bed, col = col_fun, side = "outside",
     line_col = as.numeric(factor(bed[[1]])))
 t2 = ccGenomicIdeogram()
@@ -49,7 +49,7 @@ circos.clear()
 ## Labels
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram")
+cc = ccPlot(initMode = "initializeWithIdeogram")
 bed = generateRandomBed(nr = 50, fun = function(k) sample(letters, k, replace = TRUE))
 bed[1, 4] = "aaaaa"
 t1 = ccGenomicLabels(bed, labels.column = 4, side = "inside")
@@ -58,7 +58,7 @@ circos.clear()
 ```
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram", plotType = NULL)
+cc = ccPlot(initMode = "initializeWithIdeogram", plotType = NULL)
 t1 = ccGenomicLabels(bed, labels.column = 4, side = "outside",
 	col = as.numeric(factor(bed[[1]])), line_col = as.numeric(factor(bed[[1]])))
 t2 = ccGenomicIdeogram()
@@ -74,7 +74,7 @@ circos.clear()
 ## Genomic axes
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram", plotType = c("axis"))
+cc = ccPlot(initMode = "initializeWithIdeogram", plotType = c("axis"))
 t1 = ccGenomicIdeogram()
 t2 = ccTrack(ylim = c(0, 1), track.height = 0.1, panel.fun = function(x, y) {
 	circos.genomicAxis(h = "bottom", direction = "inside")
@@ -95,7 +95,7 @@ circos.clear()
 
 ```r
 load(system.file(package = "circlize", "extdata", "DMR.RData"))
-cc = ccPlot(initFunc="initializeWithIdeogram", chromosome.index = paste0("chr", 1:22))
+cc = ccPlot(initMode="initializeWithIdeogram", chromosome.index = paste0("chr", 1:22))
 
 bed_list = list(DMR_hyper, DMR_hypo)
 t1 = ccGenomicRainfall(bed_list, pch = 16, cex = 0.4, col = c("#FF000080", "#0000FF80"))
@@ -114,7 +114,7 @@ circos.clear()
 ```
 
 ```r
-cc = ccPlot(initFunc = "initializeWithIdeogram", chromosome.index = paste0("chr", 1:22))
+cc = ccPlot(initMode = "initializeWithIdeogram", chromosome.index = paste0("chr", 1:22))
 t1 = ccGenomicDensity(DMR_hyper, col = c("#FF000080"), track.height = 0.1)
 t2 = ccGenomicDensity(DMR_hyper, col = c("#FF000080"), count_by = "number", track.height = 0.1)
 cc + t1 + t2

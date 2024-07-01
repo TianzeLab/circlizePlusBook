@@ -247,7 +247,7 @@ circos.clear()
 ```
 
 ```r
-cc = ccPlot(initFunc='heatmap.initialize', mat = mat1, split = split)
+cc = ccPlot(initMode='heatmap.initialize', mat = mat1, split = split)
 hm1 = ccHeatmap(mat = mat2, col = col_fun2, dend.side = "outside")
 hm2 = ccHeatmap(mat = mat1, col = col_fun1)
 cc + hm1 + hm2
@@ -260,7 +260,7 @@ circos.clear()
 ```
 
 ```r
-cc = ccPlot(initFunc='heatmap.initialize', mat = mat1, split = split)
+cc = ccPlot(initMode='heatmap.initialize', mat = mat1, split = split)
 hm1 = ccHeatmap(mat = mat1[, 1:5], col = col_fun1)
 hm2 = ccHeatmap(mat = mat1[, 6:10], col = col_fun1)
 cc + hm1 + hm2
@@ -304,7 +304,7 @@ circos.clear()
 ```
 
 ```r
-cc = ccPlot(initFunc='heatmap.initialize', mat = mat1, split = split)
+cc = ccPlot(initMode='heatmap.initialize', mat = mat1, split = split)
 # This is the same as the previous example
 t1 = ccTrack(ylim = range(row_mean), panel.fun = function(x, y) {
     y = row_mean[CELL_META$subset]

@@ -13,7 +13,7 @@
 set.seed(999)
 par1 = ccPar("track.height" = 0.1, start.degree = 90,
     canvas.xlim = c(0, 1), canvas.ylim = c(0, 1), gap.degree = 270)
-cc = ccPlot(initFunc = "initializeWithIdeogram",chromosome.index = "chr1", plotType = NULL)
+cc = ccPlot(initMode = "initializeWithIdeogram",chromosome.index = "chr1", plotType = NULL)
 ```
 
 ```r
@@ -86,7 +86,7 @@ circos.clear()
 par1 = ccPar("track.height" = 0.08, start.degree = 90,
     canvas.xlim = c(0, 1), canvas.ylim = c(0, 1), gap.degree = 270,
     cell.padding = c(0, 0, 0, 0))
-cc = ccPlot(initFunc = "initializeWithIdeogram", chromosome.index = "chr1", plotType = NULL)
+cc = ccPlot(initMode = "initializeWithIdeogram", chromosome.index = "chr1", plotType = NULL)
 ```
 
 ```r
@@ -166,7 +166,7 @@ circos.clear()
 ```r
 par1 = ccPar("track.height" = 0.15, start.degree = 90,
     canvas.xlim = c(0, 1), canvas.ylim = c(0, 1), gap.degree = 270)
-cc = ccPlot(initFunc = "initializeWithIdeogram", chromosome.index = "chr1", plotType = NULL)
+cc = ccPlot(initMode = "initializeWithIdeogram", chromosome.index = "chr1", plotType = NULL)
 col_fun = colorRamp2(breaks = c(-1, 0, 1), colors = c("green", "black", "red"))
 ```
 

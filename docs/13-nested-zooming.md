@@ -129,14 +129,14 @@ names(chr_bg_color) = paste0("chr", 1:22)
 
 f1 = function() {
 	par1 = ccPar(gap.after = 2, start.degree = 90)
-	cc = ccPlot(initFunc = "initializeWithIdeogram", chromosome.index = paste0("chr", 1:22), 
+	cc = ccPlot(initMode = "initializeWithIdeogram", chromosome.index = paste0("chr", 1:22), 
 		plotType = c("ideogram", "labels"), ideogram.height = 0.03, clear = FALSE)
 	show(cc + par1)
 }
 
 f2 = function() {
 	par1 = ccPar(cell.padding = c(0, 0, 0, 0), gap.after = c(rep(1, nrow(tagments)-1), 10))
-	cc = ccPlot(initFunc = "genomicInitialize",data = tagments, plotType = NULL, clear = FALSE)
+	cc = ccPlot(initMode = "genomicInitialize",data = tagments, plotType = NULL, clear = FALSE)
 	t1 = ccGenomicTrack(DMR1, ylim = c(-0.6, 0.6), 
 		panel.fun = function(region, value, ...) {
 			for(h in seq(-0.6, 0.6, by = 0.2)) {
