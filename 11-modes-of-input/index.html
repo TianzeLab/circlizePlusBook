@@ -132,7 +132,7 @@
 <pre><code class="language-r">set.seed(999)
 par1 = ccPar(&quot;track.height&quot; = 0.1, start.degree = 90,
     canvas.xlim = c(0, 1), canvas.ylim = c(0, 1), gap.degree = 270)
-cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;,chromosome.index = &quot;chr1&quot;, plotType = NULL)
+cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;,chromosome.index = &quot;chr1&quot;, plotType = NULL)
 </code></pre>
 <pre><code class="language-r">bed = generateRandomBed(nr = 300)
 t1 = ccGenomicTrack(bed, panel.fun = function(region, value, ...) {
@@ -188,7 +188,7 @@ circos.clear()
 <pre><code class="language-r">par1 = ccPar(&quot;track.height&quot; = 0.08, start.degree = 90,
     canvas.xlim = c(0, 1), canvas.ylim = c(0, 1), gap.degree = 270,
     cell.padding = c(0, 0, 0, 0))
-cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, chromosome.index = &quot;chr1&quot;, plotType = NULL)
+cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, chromosome.index = &quot;chr1&quot;, plotType = NULL)
 </code></pre>
 <pre><code class="language-r">bed = generateRandomBed(nr = 500)
 t1 =ccGenomicTrack(bed, 
@@ -251,7 +251,7 @@ circos.clear()
 <h3 id="rectangles">Rectangles</h3>
 <pre><code class="language-r">par1 = ccPar(&quot;track.height&quot; = 0.15, start.degree = 90,
     canvas.xlim = c(0, 1), canvas.ylim = c(0, 1), gap.degree = 270)
-cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, chromosome.index = &quot;chr1&quot;, plotType = NULL)
+cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, chromosome.index = &quot;chr1&quot;, plotType = NULL)
 col_fun = colorRamp2(breaks = c(-1, 0, 1), colors = c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
 </code></pre>
 <pre><code class="language-r">bed = generateRandomBed(nr = 100, nc = 4)

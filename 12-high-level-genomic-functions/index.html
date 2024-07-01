@@ -128,7 +128,7 @@
               
                 <h1 id="high-level-genomic-functions">High-level genomic functions</h1>
 <h2 id="ideograms">Ideograms</h2>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, plotType = c(&quot;labels&quot;, &quot;axis&quot;))
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, plotType = c(&quot;labels&quot;, &quot;axis&quot;))
 t1 = ccTrack(ylim = c(0, 1))
 t2 =ccGenomicIdeogram() # put ideogram as the third track
 t3 = ccGenomicIdeogram(track.height = 0.2)
@@ -140,14 +140,14 @@ cc + t1 + t2 + t3
 </div>
 
 <h2 id="heatmaps">Heatmaps</h2>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;)
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;)
 bed = generateRandomBed(nr = 100, nc = 4)
 col_fun = colorRamp2(c(-1, 0, 1), c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
 t1 = ccGenomicHeatmap(bed, col = col_fun, side = &quot;inside&quot;, border = &quot;white&quot;)
 cc + t1
 circos.clear()
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, plotType = NULL)
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, plotType = NULL)
 t1 = ccGenomicHeatmap(bed, col = col_fun, side = &quot;outside&quot;,
     line_col = as.numeric(factor(bed[[1]])))
 t2 = ccGenomicIdeogram()
@@ -160,14 +160,14 @@ circos.clear()
 </div>
 
 <h2 id="labels">Labels</h2>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;)
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;)
 bed = generateRandomBed(nr = 50, fun = function(k) sample(letters, k, replace = TRUE))
 bed[1, 4] = &quot;aaaaa&quot;
 t1 = ccGenomicLabels(bed, labels.column = 4, side = &quot;inside&quot;)
 cc + t1
 circos.clear()
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, plotType = NULL)
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, plotType = NULL)
 t1 = ccGenomicLabels(bed, labels.column = 4, side = &quot;outside&quot;,
     col = as.numeric(factor(bed[[1]])), line_col = as.numeric(factor(bed[[1]])))
 t2 = ccGenomicIdeogram()
@@ -180,7 +180,7 @@ circos.clear()
 </div>
 
 <h2 id="genomic-axes">Genomic axes</h2>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, plotType = c(&quot;axis&quot;))
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, plotType = c(&quot;axis&quot;))
 t1 = ccGenomicIdeogram()
 t2 = ccTrack(ylim = c(0, 1), track.height = 0.1, panel.fun = function(x, y) {
     circos.genomicAxis(h = &quot;bottom&quot;, direction = &quot;inside&quot;)
@@ -196,7 +196,7 @@ cc + t1 + t2
 </code></pre>
 <h2 id="genomic-density-and-rainfall-plot">Genomic density and Rainfall plot</h2>
 <pre><code class="language-r">load(system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;DMR.RData&quot;))
-cc = ccPlot(initFunc=&quot;initializeWithIdeogram&quot;, chromosome.index = paste0(&quot;chr&quot;, 1:22))
+cc = ccPlot(initMode=&quot;initializeWithIdeogram&quot;, chromosome.index = paste0(&quot;chr&quot;, 1:22))
 
 bed_list = list(DMR_hyper, DMR_hypo)
 t1 = ccGenomicRainfall(bed_list, pch = 16, cex = 0.4, col = c(&quot;#FF000080&quot;, &quot;#0000FF80&quot;))
@@ -211,7 +211,7 @@ cc + t1 + t2 + t3
 
 <pre><code class="language-r">circos.clear()
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, chromosome.index = paste0(&quot;chr&quot;, 1:22))
+<pre><code class="language-r">cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, chromosome.index = paste0(&quot;chr&quot;, 1:22))
 t1 = ccGenomicDensity(DMR_hyper, col = c(&quot;#FF000080&quot;), track.height = 0.1)
 t2 = ccGenomicDensity(DMR_hyper, col = c(&quot;#FF000080&quot;), count_by = &quot;number&quot;, track.height = 0.1)
 cc + t1 + t2

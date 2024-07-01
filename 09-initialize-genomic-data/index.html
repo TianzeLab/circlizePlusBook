@@ -139,7 +139,7 @@
 not only by chromosomes, but also by any type of general genomic categories.</p>
 <h2 id="initialize-with-cytoband-data">Initialize with cytoband data</h2>
 <h3 id="basic-usage">Basic usage</h3>
-<pre><code class="language-r">ccPlot(initFunc='initializeWithIdeogram')
+<pre><code class="language-r">ccPlot(initMode='initializeWithIdeogram')
 text(0, 0, &quot;default&quot;, cex = 1)
 </code></pre>
 <div class="figure" style="text-align: center">
@@ -148,15 +148,15 @@ text(0, 0, &quot;default&quot;, cex = 1)
 </div>
 
 <pre><code class="language-r">cytoband.file = system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;cytoBand.txt&quot;)
-cc = ccPlot(initFunc='initializeWithIdeogram', cytoband  = cytoband.file)
+cc = ccPlot(initMode='initializeWithIdeogram', cytoband  = cytoband.file)
 cc
 
 cytoband.df = read.table(cytoband.file, colClasses = c(&quot;character&quot;, &quot;numeric&quot;,
     &quot;numeric&quot;, &quot;character&quot;, &quot;character&quot;), sep = &quot;\t&quot;)
-cc = ccPlot(initFunc='initializeWithIdeogram', cytoband  = cytoband.df)
+cc = ccPlot(initMode='initializeWithIdeogram', cytoband  = cytoband.df)
 cc
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc='initializeWithIdeogram', chromosome.index = paste0(&quot;chr&quot;, c(3,5,2,8)))
+<pre><code class="language-r">cc = ccPlot(initMode='initializeWithIdeogram', chromosome.index = paste0(&quot;chr&quot;, c(3,5,2,8)))
 cc
 text(0, 0, &quot;subset of chromosomes&quot;, cex = 1)
 </code></pre>
@@ -168,12 +168,12 @@ text(0, 0, &quot;subset of chromosomes&quot;, cex = 1)
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <h3 id="pre-defined-tracks">Pre-defined tracks</h3>
-<pre><code class="language-r">cc = ccPlot(initFunc='initializeWithIdeogram', plotType = c(&quot;axis&quot;, &quot;labels&quot;))
+<pre><code class="language-r">cc = ccPlot(initMode='initializeWithIdeogram', plotType = c(&quot;axis&quot;, &quot;labels&quot;))
 cc
 text(0, 0, &quot;plotType = c('axis', 'labels')&quot;, cex = 1)
 circos.clear()
 
-cc = ccPlot(initFunc='initializeWithIdeogram', plotType = NULL)
+cc = ccPlot(initMode='initializeWithIdeogram', plotType = NULL)
 cc
 text(0, 0, &quot;plotType = NULL&quot;, cex = 1)
 </code></pre>
@@ -186,13 +186,13 @@ text(0, 0, &quot;plotType = NULL&quot;, cex = 1)
 </code></pre>
 <h3 id="other-general-settings">Other general settings</h3>
 <pre><code class="language-r">par1 = ccPar(&quot;start.degree&quot; = 90)
-cc = ccPlot(initFunc='initializeWithIdeogram')
+cc = ccPlot(initMode='initializeWithIdeogram')
 cc + par1
 circos.clear()
 text(0, 0, &quot;'start.degree' = 90&quot;, cex = 1)
 
 par1 = ccPar(&quot;gap.degree&quot; = rep(c(2, 4), 12))
-cc = ccPlot(initFunc='initializeWithIdeogram')
+cc = ccPlot(initMode='initializeWithIdeogram')
 cc + par1
 circos.clear()
 text(0, 0, &quot;'gap.degree' = rep(c(2, 4), 12)&quot;, cex = 1)
@@ -204,7 +204,7 @@ text(0, 0, &quot;'gap.degree' = rep(c(2, 4), 12)&quot;, cex = 1)
 
 <h2 id="customize-chromosome-track">Customize chromosome track</h2>
 <pre><code class="language-r">set.seed(123)
-cc = ccPlot(initFunc='initializeWithIdeogram', plotType = NULL)
+cc = ccPlot(initMode='initializeWithIdeogram', plotType = NULL)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     chr = CELL_META$sector.index
     xlim = CELL_META$xlim
@@ -226,7 +226,7 @@ cc + t1
 <pre><code class="language-r">tp_family = readRDS(system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;tp_family_df.rds&quot;))
 head(tp_family)
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc = 'initializeWithIdeogram', cytoband = tp_family)
+<pre><code class="language-r">cc = ccPlot(initMode = 'initializeWithIdeogram', cytoband = tp_family)
 t1 = ccTrack(ylim = c(0, 1), 
     bg.col = c(&quot;#FF000040&quot;, &quot;#00FF0040&quot;, &quot;#0000FF40&quot;), 
     bg.border = NA, track.height = 0.05)
@@ -274,7 +274,7 @@ sector.width = c(xrange[normal_chr_index] / sum(xrange[normal_chr_index]),
                  xrange[zoomed_chr_index] / sum(xrange[zoomed_chr_index])) 
 </code></pre>
 <pre><code class="language-r">par1 = ccPar(start.degree = 90)
-cc = ccPlot(initFunc = 'initializeWithIdeogram', cytoband = extend_chromosomes(cytoband_df, c(&quot;chr1&quot;, &quot;chr2&quot;)), 
+cc = ccPlot(initMode = 'initializeWithIdeogram', cytoband = extend_chromosomes(cytoband_df, c(&quot;chr1&quot;, &quot;chr2&quot;)), 
     sector.width = sector.width)
 </code></pre>
 <pre><code class="language-r">bed = generateRandomBed(500)
@@ -307,7 +307,7 @@ head(cytoband)
 </code></pre>
 <pre><code class="language-r">chromosome.index = c(paste0(&quot;human_chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;)), 
                      rev(paste0(&quot;mouse_chr&quot;, c(1:19, &quot;X&quot;, &quot;Y&quot;))))
-ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, chromosome.index = chromosome.index)
+ccPlot(initMode = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, chromosome.index = chromosome.index)
 </code></pre>
 <div class="figure" style="text-align: center">
 <img src="../09-initialize-genomic-data_files/figure-html/genomic-combined-default-1.png" alt="Default style of two combined genomes." width="672" />
@@ -317,7 +317,7 @@ ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, chrom
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <pre><code class="language-r">par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
-cc = ccPlot(initFunc = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, plotType = NULL, 
+cc = ccPlot(initMode = &quot;initializeWithIdeogram&quot;, cytoband = cytoband, plotType = NULL, 
     chromosome.index = chromosome.index)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
@@ -347,7 +347,7 @@ chromInfo[, 1] = factor(chromInfo[ ,1], levels = chromosome.index)
 head(chromInfo)
 </code></pre>
 <pre><code class="language-r">par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
-cc = ccPlot(initFunc = &quot;genomicInitialize&quot;, data = chromInfo, plotType = NULL)
+cc = ccPlot(initMode = &quot;genomicInitialize&quot;, data = chromInfo, plotType = NULL)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
         gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
@@ -367,7 +367,7 @@ highlight.chromosome(paste0(&quot;mouse_chr&quot;, c(1:19, &quot;X&quot;, &quot;
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <pre><code class="language-r">par1 = ccPar(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
-cc = ccPlot(initFunc = &quot;genomicInitialize&quot;, data = chromInfo, plotType = NULL)
+cc = ccPlot(initMode = &quot;genomicInitialize&quot;, data = chromInfo, plotType = NULL)
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
         gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)

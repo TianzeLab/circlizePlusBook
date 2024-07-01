@@ -321,7 +321,7 @@ hm1 + hm2
 <p><img src="../06-circos-heatmap_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">circos.clear()
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc='heatmap.initialize', mat = mat1, split = split)
+<pre><code class="language-r">cc = ccPlot(initMode='heatmap.initialize', mat = mat1, split = split)
 hm1 = ccHeatmap(mat = mat2, col = col_fun2, dend.side = &quot;outside&quot;)
 hm2 = ccHeatmap(mat = mat1, col = col_fun1)
 cc + hm1 + hm2
@@ -329,7 +329,7 @@ cc + hm1 + hm2
 <p><img src="../06-circos-heatmap_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">circos.clear()
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc='heatmap.initialize', mat = mat1, split = split)
+<pre><code class="language-r">cc = ccPlot(initMode='heatmap.initialize', mat = mat1, split = split)
 hm1 = ccHeatmap(mat = mat1[, 1:5], col = col_fun1)
 hm2 = ccHeatmap(mat = mat1[, 6:10], col = col_fun1)
 cc + hm1 + hm2
@@ -360,7 +360,7 @@ hm1 + t1
 <p><img src="../06-circos-heatmap_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">circos.clear()
 </code></pre>
-<pre><code class="language-r">cc = ccPlot(initFunc='heatmap.initialize', mat = mat1, split = split)
+<pre><code class="language-r">cc = ccPlot(initMode='heatmap.initialize', mat = mat1, split = split)
 # This is the same as the previous example
 t1 = ccTrack(ylim = range(row_mean), panel.fun = function(x, y) {
     y = row_mean[CELL_META$subset]
