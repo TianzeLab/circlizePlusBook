@@ -21,9 +21,9 @@ track1 = ccTrack(sectors = df$sectors, y = df$y,
         circos.axis(labels.cex = 0.6)
 })
 col = rep(c("#FF0000", "#00FF00"), 4)
-tackPoint1 = ccTrackPoints(sectors = df$sectors, x = df$x, y = df$y, col = col, pch = 16, cex = 0.5)
+trackPoint1 = ccTrackPoints(sectors = df$sectors, x = df$x, y = df$y, col = col, pch = 16, cex = 0.5)
 cell1 = ccCell(sector.index = 'a') + ccText(-1, 0.5, "text")
-track1 = track1 + cell1 + tackPoint1
+track1 = track1 + cell1 + trackPoint1
 cc = cc + track1
 cc
 ```
