@@ -236,7 +236,7 @@ circos.clear()
 
 ```r
 hm1 = ccHeatmap(mat = mat2, split = split, col = col_fun2, dend.side = "outside")
-hm2 = ccHatmap(mat = mat1, col = col_fun1)
+hm2 = ccHeatmap(mat = mat1, col = col_fun1)
 hm1 + hm2
 ```
 
