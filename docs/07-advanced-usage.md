@@ -49,14 +49,14 @@ t1 = ccTrack(sectors = df2$sectors, x = df2$x, y = df2$y,
 ```
 
 ```r
-l1 = ccLink("a", get.cell.meta.data("cell.xlim", sector.index = "a"),
+cc + par1 + t1
+circos.link("a", get.cell.meta.data("cell.xlim", sector.index = "a"),
     "zoom_a", get.cell.meta.data("cell.xlim", sector.index = "zoom_a"),
     border = NA, col = "#00000020")
-l2 = ccLink("b", c(zoom_df_b[1, 2], zoom_df_b[10, 2]),
+circos.link("b", c(zoom_df_b[1, 2], zoom_df_b[10, 2]),
     "zoom_b", get.cell.meta.data("cell.xlim", sector.index = "zoom_b"),
     rou1 = get.cell.meta.data("cell.top.radius", sector.index = "b"),
     border = NA, col = "#00000020")
-cc + par1 + t1 + l1 + l2
 circos.clear()
 ```
 
@@ -118,7 +118,7 @@ cc = ccPlot(sectors = sectors, xlim = c(0, 1))
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(0.5, 0.5, "inner circos", niceFacing = TRUE)
 })
-cc + t1
+cc + t1 + par1
 circos.clear()
 ```
 
