@@ -37,12 +37,6 @@ cc + par1 + t1
 circos.clear()
 ```
 
-```r
-circos.text(xlim[1] - mm_x(2, h = 1:9), 1:9, 
-    paste(category, " - ", percent, "%"), 
-    facing = "downward", adj = c(1, 0.5), cex = 0.8)
-```
-
 ## Histograms
 
 ```r
@@ -107,14 +101,18 @@ cc + par1 + t1 + t2
 ```
 
 ```r
-circos.dendrogram(dend, facing = "inside")
+t2 = ccTrack(ylim = c(0, dend_height), bg.border = NA, 
+    track.height = 0.4, panel.fun = function(x, y) {
+        circos.dendrogram(dend, facing = "inside")
+})
+cc + par1 + t2 + t1
 ```
 
 
 
 <div class="figure" style="text-align: center">
 <img src="../05-implement-high-level-plots_files/figure-html/phylogenetic-tree-1.png" alt="A circular phylogenetic tree." width="768" />
-<p class="caption">(\#fig:phylogenetic-tree)A circular phylogenetic tree.</p>
+<p class="caption">A circular phylogenetic tree.</p>
 </div>
 
 ## Manually create heatmaps
