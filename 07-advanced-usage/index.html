@@ -158,14 +158,14 @@ t1 = ccTrack(sectors = df2$sectors, x = df2$x, y = df2$y,
         CELL_META$sector.index, niceFacing = TRUE)
 })
 </code></pre>
-<pre><code class="language-r">l1 = ccLink(&quot;a&quot;, get.cell.meta.data(&quot;cell.xlim&quot;, sector.index = &quot;a&quot;),
+<pre><code class="language-r">cc + par1 + t1
+circos.link(&quot;a&quot;, get.cell.meta.data(&quot;cell.xlim&quot;, sector.index = &quot;a&quot;),
     &quot;zoom_a&quot;, get.cell.meta.data(&quot;cell.xlim&quot;, sector.index = &quot;zoom_a&quot;),
     border = NA, col = &quot;#00000020&quot;)
-l2 = ccLink(&quot;b&quot;, c(zoom_df_b[1, 2], zoom_df_b[10, 2]),
+circos.link(&quot;b&quot;, c(zoom_df_b[1, 2], zoom_df_b[10, 2]),
     &quot;zoom_b&quot;, get.cell.meta.data(&quot;cell.xlim&quot;, sector.index = &quot;zoom_b&quot;),
     rou1 = get.cell.meta.data(&quot;cell.top.radius&quot;, sector.index = &quot;b&quot;),
     border = NA, col = &quot;#00000020&quot;)
-cc + par1 + t1 + l1 + l2
 circos.clear()
 </code></pre>
 <div class="figure" style="text-align: center">
@@ -218,7 +218,7 @@ cc = ccPlot(sectors = sectors, xlim = c(0, 1))
 t1 = ccTrack(ylim = c(0, 1), panel.fun = function(x, y) {
     circos.text(0.5, 0.5, &quot;inner circos&quot;, niceFacing = TRUE)
 })
-cc + t1
+cc + t1 + par1
 circos.clear()
 </code></pre>
 <div class="figure" style="text-align: center">
