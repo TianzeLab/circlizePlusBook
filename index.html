@@ -119,9 +119,10 @@
                 <h1 id="prerequisite">Prerequisite</h1>
 <p>It is recommended that you have the latest version of the R environment installed.
 You need to install devtools and load it into the R environment, and then you can install circlizePlus from Github.</p>
-<p><code>install.packages("devtools")</code></p>
-<p><code>library(devtools)</code></p>
-<p><code>install_github("TianzeLab/circlizePlus")</code></p>
+<pre><code class="language-R">if (!requireNamespace(&quot;devtools&quot;, quietly=TRUE))
+    install.packages(&quot;devtools&quot;)
+install_github(&quot;TianzeLab/circlizePlus&quot;)
+</code></pre>
 <p>Every time you reboot the R environment, you need to load circlizePlus again.</p>
 <p><code>library(circlizePlus)</code></p>
               
@@ -172,5 +173,5 @@ You need to install devtools and load it into the R environment, and then you ca
 
 <!--
 MkDocs version : 1.6.0
-Build Date UTC : 2024-09-19 12:15:31.317099+00:00
+Build Date UTC : 2024-12-10 04:10:04.039850+00:00
 -->
